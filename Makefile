@@ -4,10 +4,11 @@ intro:
 	@echo "make build: builds the project into the build directory"
 	@echo "make install: installs the go app"
 test:
-	go test -v ./...
+	@go test -v ./...
 run: test
-	go run main.go
+	@go run main.go
 build: test
-	go build -o build/goCalc
+	@go build -o build/gocalc
+	@echo "Build finished and located in build/gocalc"
 install: test
-	go install
+	@go install
