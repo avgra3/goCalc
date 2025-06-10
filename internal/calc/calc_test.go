@@ -18,8 +18,8 @@ func TestPeriodOverPeriod(t *testing.T) {
 	}
 
 	// Ensure errors
-	currentErrors := []int64{10, 10, -10}
-	previousErrors := []int64{0, -10, 10}
+	currentErrors := []int64{10, 10, -10, 232323}
+	previousErrors := []int64{0, -10, 10, 23232323232323}
 	// previous == 0
 	_, err := PeriodOverPeriod(currentErrors[0], previousErrors[0])
 	if err == nil {
@@ -45,8 +45,9 @@ func TestPercentDifference(t *testing.T) {
 		{123, 456},
 		{192, 134},
 		{121212, 121212212},
+		{232323, 23232323232323},
 	}
-	expected := []float64{0.0, 115.026, 35.5828, 199.6}
+	expected := []float64{0.0, 115.026, 35.5828, 199.6, 200.0}
 	for i := range inputs {
 		percentDiff, _ := percentDifference(inputs[i][0], inputs[i][1])
 		if !floatEqualRelative(expected[i], percentDiff) {
@@ -61,11 +62,13 @@ func TestPercentChange(t *testing.T) {
 		{10, 10},
 		{123, 456},
 		{192, 134},
+		{121212, 121212212},
+		{232323, 23232323232323},
 	}
-	expected := []float64{0.0, 270.732, -30.2083}
+	expected := []float64{0.0, 270.732, -30.2083, 99900.2, 10000000000.0}
 	for i := range inputs {
 		percentDiff, _ := percentChange(inputs[i][0], inputs[i][1])
-		if !floatEqualRelative(expected[i], percentDiff) {
+		if !floatEqualRelative(percentDiff, expected[i]) {
 			t.Errorf("Expected inputs v1=%f and v2=%f, result to equal expected (they did not). %f (calculated) != %f (expected)", inputs[i][0], inputs[i][1], percentDiff, expected[i])
 		}
 	}
@@ -73,7 +76,7 @@ func TestPercentChange(t *testing.T) {
 
 func TestRoundFloats(t *testing.T) {
 	values := []float64{0.0, 100.000001, 1000.000001}
-	precision := []uint{1, 2, 3}
+	precision := []uint{3, 3, 3}
 	expected := []float64{0.0, 100.0, 1000.00}
 
 	for i := range values {

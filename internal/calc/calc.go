@@ -16,9 +16,9 @@ func PeriodOverPeriod(current, previous int64) (float64, error) {
 		return 0, errors.New("Current period cannot have a value less than or equal to zero")
 	}
 
-	value, err := percentChange(float64(previous), float64(current))
+	value, err := percentDifference(float64(previous), float64(current))
 	// Rounds our result to 2 decimals
-	return roundFloats(value, 2), err
+	return roundFloats(value, 3), err
 }
 
 func percentDifference(value1, value2 float64) (float64, error) {
@@ -26,7 +26,7 @@ func percentDifference(value1, value2 float64) (float64, error) {
 		return 0, errors.New("value1 and value2 must be greater than 0")
 	}
 
-	result := 100 * (math.Abs(value1-value2) / ((value1 + value2) / 2))
+	result := 100 * math.Abs((value1-value2)/((value1+value2)/2))
 	return result, nil
 }
 
@@ -35,7 +35,7 @@ func percentChange(value1, value2 float64) (float64, error) {
 		return 0, errors.New("value1 and value2 must be greater than 0")
 	}
 
-	result := 100 * ((value2 - value1) / math.Abs(value1))
+	result := 100.0 * ((value2 - value1) / math.Abs(value1))
 	return result, nil
 
 }
